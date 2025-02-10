@@ -1,0 +1,69 @@
+plugins {
+    id 'com.android.library'
+    id 'org.jetbrains.kotlin.android'
+    id 'org.jetbrains.kotlin.plugin.serialization'
+    id 'com.vanniktech.maven.publish'
+    id 'org.jetbrains.dokka'
+}
+
+android {
+    namespace 'com.wbrawner.plausible.android'
+    compileSdk 33
+
+    defaultConfig {
+        minSdk 21
+        targetSdk 33
+
+        versionCode 2
+        versionName "1.0"
+
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        testInstrumentationRunnerArguments clearPackageData: 'true'
+        consumerProguardFiles "consumer-rules.pro"
+        buildConfigField "String", "VERSION", "\"$versionName\""
+    }
+    testOptions {
+        execution 'ANDROIDX_TEST_ORCHESTRATOR'
+        unitTests {
+            includeAndroidResources = true
+        }
+    }
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+    kotlinOptions {
+        jvmTarget = '1.8'
+    }
+}
+
+dokkaHtml.configure {
+    dokkaSourceSets {
+        named("main") {
+            noAndroidSdkLink.set(false)
+        }
+    }
+}
+
+dependencies {
+    implementation "androidx.startup:startup-runtime:1.1.1"
+    implementation 'androidx.annotation:annotation:1.5.0'
+    implementation "org.jetbrains.kotlinx:kotlinx-serialization-json:1.4.1"
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.4")
+    implementation 'com.jakewharton.timber:timber:5.0.1'
+    def okhttp_version = "4.10.0"
+    implementation "com.squareup.okhttp3:okhttp:$okhttp_version"
+    testImplementation "com.squareup.okhttp3:mockwebserver:$okhttp_version"
+    testImplementation 'org.robolectric:robolectric:4.9'
+    testImplementation 'junit:junit:4.13.2'
+    androidTestImplementation 'androidx.test.ext:junit:1.1.4'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.0'
+    androidTestImplementation 'androidx.test:runner:1.5.1'
+    androidTestUtil 'androidx.test:orchestrator:1.4.2'
+}
