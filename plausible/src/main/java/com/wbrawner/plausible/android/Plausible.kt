@@ -15,14 +15,15 @@ object Plausible {
     private val client: AtomicReference<PlausibleClient?> = AtomicReference(null)
     private val config: AtomicReference<PlausibleConfig?> = AtomicReference(null)
 
-    fun init(context: Context) {
+    fun init(context: Context, domain: String) {
         val config = AndroidResourcePlausibleConfig(context)
         val client = NetworkFirstPlausibleClient(config)
-        init(client, config)
+        init(client, config, domain)
     }
 
-    internal fun init(client: PlausibleClient, config: PlausibleConfig) {
+    internal fun init(client: PlausibleClient, config: PlausibleConfig, domain:String) {
         this.client.set(client)
+        config.domain = domain
         this.config.set(config)
     }
 
@@ -55,15 +56,6 @@ object Plausible {
             }
             ?: Timber.tag("Plausible")
                 .w("Ignoring call to setUserAgent(). Did you forget to call Plausible.init()?")
-    }
-
-    fun setDomain(domain: String) {
-        config.get()
-            ?.let {
-                it.domain = domain
-            }
-            ?: Timber.tag("Plausible")
-                .w("Ignoring call to setDomain(). Did you forget to call Plausible.init()?")
     }
 
     /**

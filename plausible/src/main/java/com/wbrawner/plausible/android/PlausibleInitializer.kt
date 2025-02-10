@@ -8,7 +8,7 @@ import androidx.startup.Initializer
  */
 class PlausibleInitializer : Initializer<Plausible> {
     override fun create(context: Context): Plausible {
-        Plausible.init(context.applicationContext)
+        Plausible.init(context.applicationContext, "https://www.example.com/api/")
         return Plausible
     }
 

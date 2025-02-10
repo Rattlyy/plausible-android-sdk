@@ -3,6 +3,7 @@ package com.wbrawner.plausible.android
 import android.content.Context
 import android.content.res.Resources
 import android.os.Build
+import android.util.Patterns
 import java.io.File
 import java.util.concurrent.atomic.AtomicBoolean
 import java.util.concurrent.atomic.AtomicReference
@@ -77,7 +78,10 @@ open class ThreadSafePlausibleConfig(
     private val domainRef = AtomicReference("")
     override var domain: String
         get() = domainRef.get()
-        set(value) = domainRef.set(value)
+        set(value) {
+            require(Patterns.WEB_URL.matcher(value).matches()) { "Invalid URL format" }
+            domainRef.set(value)
+        }
 
     private val hostRef = AtomicReference(DEFAULT_PLAUSIBLE_HOST)
     override var host: String
@@ -102,7 +106,6 @@ class AndroidResourcePlausibleConfig(context: Context) : ThreadSafePlausibleConf
     }.roundToInt()
 ) {
     init {
-        domain = context.resources.getString(R.string.plausible_domain)
         host = context.resources.getString(R.string.plausible_host)
         context.resources.getString(R.string.plausible_enable_startup).toBooleanStrictOrNull()
             ?.let {

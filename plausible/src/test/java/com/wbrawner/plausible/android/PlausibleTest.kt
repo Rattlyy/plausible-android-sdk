@@ -23,7 +23,7 @@ internal class PlausibleTest {
         eventDir.mkdir()
         client = FakePlausibleClient()
         config = ThreadSafePlausibleConfig(eventDir, SCREEN_WIDTH)
-        Plausible.init(client, config)
+        Plausible.init(client, config, "test.example.com")
     }
 
     @Test
