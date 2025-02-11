@@ -26,7 +26,7 @@ import kotlin.coroutines.resumeWithException
  * Implementation behind [Plausible] singleton. Using an instance under the singleton allows for
  * easier testing.
  */
-internal interface PlausibleClient {
+interface PlausibleClient {
 
     /**
      * See [Plausible.event] for details on parameters.

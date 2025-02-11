@@ -1,43 +1,49 @@
 package com.wbrawner.plausible.android
 
 import android.content.Context
-import com.wbrawner.plausible.android.Plausible.init
 import timber.log.Timber
-import java.util.concurrent.atomic.AtomicReference
 
 /**
- * Singleton for sending events to Plausible.
- *
- * If you disable the [PlausibleInitializer] then you
- * must ensure that [init] is called prior to sending events.
+ * Class for sending events to Plausible.
  */
-object Plausible {
-    private val client: AtomicReference<PlausibleClient?> = AtomicReference(null)
-    private val config: AtomicReference<PlausibleConfig?> = AtomicReference(null)
+class Plausible private constructor(
+    private val client: PlausibleClient,
+    private val config: PlausibleConfig
+) {
 
-    fun init(context: Context, domain: String) {
-        val config = AndroidResourcePlausibleConfig(context)
-        val client = NetworkFirstPlausibleClient(config)
-        init(client, config, domain)
-    }
+    /**
+     * Primary constructor for initializing Plausible with a context and domain.
+     *
+     * @param context The application context.
+     * @param domain The domain to track events for.
+     */
+    constructor(context: Context, domain: String) : this(
+        client = NetworkFirstPlausibleClient(AndroidResourcePlausibleConfig(context)),
+        config = AndroidResourcePlausibleConfig(context).apply { this.domain = domain }
+    )
 
-    internal fun init(client: PlausibleClient, config: PlausibleConfig, domain:String) {
-        this.client.set(client)
-        config.domain = domain
-        this.config.set(config)
-    }
+    /**
+     * Secondary constructor for advanced initialization with custom client and config.
+     *
+     * @param client The [PlausibleClient] to use for sending events.
+     * @param config The [PlausibleConfig] to use for configuration.
+     * @param domain The domain to track events for.
+     */
+    constructor(client: PlausibleClient, config: PlausibleConfig, domain: String) : this(
+        client = client,
+        config = config.apply { this.domain = domain }
+    )
+
 
     /**
      * Enable or disable event sending
      */
     @Suppress("unused")
     fun enable(enable: Boolean) {
-        config.get()
-            ?.let {
-                it.enable = enable
-            }
-            ?: Timber.tag("Plausible")
-                .w("Ignoring call to enable(). Did you forget to call Plausible.init()?")
+        config?.let {
+            it.enable = enable
+        } ?: Timber.tag("Plausible")
+            .w("Ignoring call to enable(). Did you forget to call Plausible.init()?")
     }
 
     /**
@@ -50,12 +56,10 @@ object Plausible {
      */
     @Suppress("unused")
     fun setUserAgent(userAgent: String) {
-        config.get()
-            ?.let {
-                it.userAgent = userAgent
-            }
-            ?: Timber.tag("Plausible")
-                .w("Ignoring call to setUserAgent(). Did you forget to call Plausible.init()?")
+        config?.let {
+            it.userAgent = userAgent
+        } ?: Timber.tag("Plausible")
+            .w("Ignoring call to setUserAgent(). Did you forget to call Plausible.init()?")
     }
 
     /**
@@ -118,16 +122,12 @@ object Plausible {
         referrer: String = "",
         props: Map<String, Any?>? = null
     ) {
-        client.get()
-            ?.let { client ->
-                config.get()
-                    ?.let { config ->
-                        client.event(config.domain, name, url, referrer, config.screenWidth, props)
-                    }
-                    ?: Timber.tag("Plausible")
-                        .w("Ignoring call to event(). Did you forget to call Plausible.init()?")
-            }
-            ?: Timber.tag("Plausible")
+        client?.let { client ->
+            config?.let { config ->
+                client.event(config.domain, name, url, referrer, config.screenWidth, props)
+            } ?: Timber.tag("Plausible")
                 .w("Ignoring call to event(). Did you forget to call Plausible.init()?")
+        } ?: Timber.tag("Plausible")
+            .w("Ignoring call to event(). Did you forget to call Plausible.init()?")
     }
 }
