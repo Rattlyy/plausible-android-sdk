@@ -12,9 +12,10 @@ internal const val SCREEN_WIDTH = 123
 
 @RunWith(RobolectricTestRunner::class)
 internal class PlausibleTest {
-    lateinit var client: FakePlausibleClient
-    lateinit var config: PlausibleConfig
-    lateinit var eventDir: File
+    private lateinit var client: FakePlausibleClient
+    private lateinit var config: PlausibleConfig
+    private lateinit var eventDir: File
+    private lateinit var plausible: Plausible
 
     @Before
     fun setup() {
@@ -23,20 +24,21 @@ internal class PlausibleTest {
         eventDir.mkdir()
         client = FakePlausibleClient()
         config = ThreadSafePlausibleConfig(eventDir, SCREEN_WIDTH)
-        Plausible.init(client, config, "test.example.com")
+
+        plausible = Plausible(client, config, "test.example.com")
     }
 
     @Test
     fun `enable is set on config via Plausible`() {
         assertTrue(config.enable)
-        Plausible.enable(false)
+        plausible.enable(false)
         assertFalse(config.enable)
     }
 
     @Test
     fun `user agent is set on config via Plausible`() {
         val oldUserAgent = config.userAgent
-        Plausible.setUserAgent("test user agent")
+        plausible.setUserAgent("test user agent")
         assertNotEquals(oldUserAgent, config.userAgent)
         assertEquals("test user agent", config.userAgent)
     }
@@ -44,7 +46,7 @@ internal class PlausibleTest {
     @Test
     fun `events are sent to client`() {
         config.domain = "test.example.com"
-        Plausible.event("eventName", "eventUrl", "referrer", mapOf("prop1" to "propVal"))
+        plausible.event("eventName", "eventUrl", "referrer", mapOf("prop1" to "propVal"))
         assertEquals(1, client.events.size)
         val event = client.events.first()
         assertEquals("test.example.com", event.domain)

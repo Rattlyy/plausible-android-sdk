@@ -22,7 +22,7 @@ import kotlinx.serialization.json.Json
  * @param props Custom properties for the event. See [https://plausible.io/docs/custom-event-goals#using-custom-props](https://plausible.io/docs/custom-event-goals#using-custom-props)
  */
 @Serializable
-internal data class Event(
+data class Event(
     val domain: String,
     val name: String,
     val url: String,
