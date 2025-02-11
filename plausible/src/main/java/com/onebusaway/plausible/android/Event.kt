@@ -1,4 +1,4 @@
-package com.wbrawner.plausible.android
+package com.onebusaway.plausible.android
 
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable

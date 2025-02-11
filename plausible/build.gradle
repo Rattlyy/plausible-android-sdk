@@ -7,7 +7,7 @@ plugins {
 }
 
 android {
-    namespace 'com.wbrawner.plausible.android'
+    namespace 'com.onebusaway.plausible.android'
     compileSdk 33
 
     defaultConfig {

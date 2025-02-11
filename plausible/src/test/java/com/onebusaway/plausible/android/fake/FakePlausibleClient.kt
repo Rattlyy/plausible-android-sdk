@@ -1,7 +1,7 @@
-package com.wbrawner.plausible.android.fake
+package com.onebusaway.plausible.android.fake
 
-import com.wbrawner.plausible.android.Event
-import com.wbrawner.plausible.android.PlausibleClient
+import com.onebusaway.plausible.android.Event
+import com.onebusaway.plausible.android.PlausibleClient
 
 internal class FakePlausibleClient : PlausibleClient {
     val events = mutableListOf<Event>()
