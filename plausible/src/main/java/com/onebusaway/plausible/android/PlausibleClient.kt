@@ -1,4 +1,4 @@
-package com.wbrawner.plausible.android
+package com.onebusaway.plausible.android
 
 import android.net.Uri
 import androidx.annotation.VisibleForTesting

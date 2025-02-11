@@ -1,6 +1,6 @@
-package com.wbrawner.plausible.android
+package com.onebusaway.plausible.android
 
-import com.wbrawner.plausible.android.fake.FakePlausibleClient
+import com.onebusaway.plausible.android.fake.FakePlausibleClient
 import org.junit.Assert.*
 import org.junit.Before
 import org.junit.Test
