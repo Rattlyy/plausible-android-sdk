@@ -79,7 +79,7 @@ open class ThreadSafePlausibleConfig(
     override var domain: String
         get() = domainRef.get()
         set(value) {
-            require(Patterns.WEB_URL.matcher(value).matches()) { "Invalid URL format" }
+            require(Patterns.WEB_URL.matcher(value).matches() || value.isEmpty()) { "Invalid URL format" }
             domainRef.set(value)
         }
 
