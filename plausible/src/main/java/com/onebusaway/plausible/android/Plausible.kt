@@ -17,9 +17,9 @@ class Plausible private constructor(
      * @param context The application context.
      * @param domain The domain to track events for.
      */
-    constructor(context: Context, domain: String) : this(
+    constructor(context: Context, domain: String?) : this(
         client = NetworkFirstPlausibleClient(AndroidResourcePlausibleConfig(context)),
-        config = AndroidResourcePlausibleConfig(context).apply { this.domain = domain }
+        config = AndroidResourcePlausibleConfig(context).apply { this.domain = domain.orEmpty() }
     )
 
     /**
@@ -29,9 +29,9 @@ class Plausible private constructor(
      * @param config The [PlausibleConfig] to use for configuration.
      * @param domain The domain to track events for.
      */
-    constructor(client: PlausibleClient, config: PlausibleConfig, domain: String) : this(
+    constructor(client: PlausibleClient, config: PlausibleConfig, domain: String?) : this(
         client = client,
-        config = config.apply { this.domain = domain }
+        config = config.apply { this.domain = domain.orEmpty() }
     )
 
     /**
@@ -46,11 +46,11 @@ class Plausible private constructor(
     constructor(
         client: PlausibleClient,
         config: PlausibleConfig,
-        domain: String,
-        host: String
+        domain: String?,
+        host: String?
     ) : this(
         client = client,
-        config = config.apply { this.domain = domain; this.host = host }
+        config = config.apply { this.domain = domain.orEmpty(); this.host = host.orEmpty() }
     )
 
     /**
