@@ -106,7 +106,6 @@ class AndroidResourcePlausibleConfig(context: Context) : ThreadSafePlausibleConf
     }.roundToInt()
 ) {
     init {
-        host = context.resources.getString(R.string.plausible_host)
         context.resources.getString(R.string.plausible_enable_startup).toBooleanStrictOrNull()
             ?.let {
                 enable = it

@@ -34,6 +34,24 @@ class Plausible private constructor(
         config = config.apply { this.domain = domain }
     )
 
+    /**
+     * Tertiary constructor for advanced initialization with custom client, config, domain, and host.
+     * This is useful for adding your own instance of plausible.io.
+     * @param client The [PlausibleClient] to use for sending events.
+     * @param config The [PlausibleConfig] to use for configuration.
+     * @param domain The domain to track events for.
+     * @param host The host to send events to.
+     */
+
+    constructor(
+        client: PlausibleClient,
+        config: PlausibleConfig,
+        domain: String,
+        host: String
+    ) : this(
+        client = client,
+        config = config.apply { this.domain = domain; this.host = host }
+    )
 
     /**
      * Enable or disable event sending
