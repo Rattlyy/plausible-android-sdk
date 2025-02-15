@@ -134,7 +134,7 @@ internal class NetworkFirstPlausibleClient(
         val url = config.host
             .toHttpUrl()
             .newBuilder()
-            .addPathSegments("api/event")
+            .addPathSegments("/event")
             .build()
         val request = Request.Builder()
             .url(url)

@@ -11,7 +11,7 @@ import kotlin.math.roundToInt
 
 private val DEFAULT_USER_AGENT =
     "PlausibleAndroid ${BuildConfig.VERSION} Android ${Build.VERSION.RELEASE} ${Build.MANUFACTURER} ${Build.PRODUCT} ${Build.FINGERPRINT.hashCode()}"
-private const val DEFAULT_PLAUSIBLE_HOST = "https://plausible.io"
+private const val DEFAULT_PLAUSIBLE_HOST = "https://plausible.io/api"
 
 /**
  * Configuration options for the Plausible SDK. See the [Events API reference](https://plausible.io/docs/events-api)
