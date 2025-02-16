@@ -4,18 +4,17 @@ This is an **unofficial** Android SDK to record events with a [Plausible](https:
 
 ## Usage
 
+Add the following dependency to your project's build to integrate the SDK.gradle file:
+
+```xml
+implementation 'com.github.OneBusAway:plausible-android-sdk:3.3'
+```
 ### Configuration
 
-For simple use cases, you can just declare the domain for which you'd like to send events in your `strings.xml` file:
+Initialize the SDK by specifying your own `domainURL` for event transmission. If you're using a custom instance, you can also define the hostURL.
 
-```xml
-<string name="plausible_domain">example.com</string>
-```
-
-If you're self-hosting Plausible, you'll need to provide the URL for your instance as well:
-
-```xml
-<string name="plausible_host">https://plausible.my-company.com</string>
+```Java
+Plausible plausible = new Plausible(this, domainURL, hostURL);
 ```
 
 By default, the SDK will be enabled at app startup, though you can prevent this to allow users to
@@ -36,13 +35,13 @@ Plausible.enable(true)
 #### Page Views
 
 ```java
-Plausible.pageView("/settings")
+plausible.pageView("/settings")
 ```
 
 #### Custom Events
 
 ```java
-Plausible.event("ctaClick")
+plausible.event("ctaClick")
 ```
 
 ## License
