@@ -6,7 +6,7 @@ import timber.log.Timber
 /**
  * Class for sending events to Plausible.
  */
-class Plausible private constructor(
+class Plausible(
     private val client: PlausibleClient,
     private val config: PlausibleConfig
 ) {
