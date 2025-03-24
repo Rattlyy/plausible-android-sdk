@@ -64,7 +64,7 @@ interface PlausibleClient {
  * The primary client for sending events to Plausible. It will attempt to send events immediately,
  * caching them to disk to send later upon failure.
  */
-internal class NetworkFirstPlausibleClient(
+class NetworkFirstPlausibleClient(
     private val config: PlausibleConfig,
     coroutineContext: CoroutineContext = Dispatchers.IO
 ) : PlausibleClient {
